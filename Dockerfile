@@ -14,4 +14,4 @@ USER exporter
 
 # NOTE: the "-u" switch disables output buffering (so output will be
 #       flush immediately)
-CMD python3.7 -u /fake_exporter.py $POD_NAMESPACE $LABEL_NAME $LABEL_VALUE $VALUE_HTTP_ENDPOINT
+CMD python3.7 -u /fake_exporter.py
