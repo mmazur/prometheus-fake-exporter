@@ -6,7 +6,7 @@ from time import sleep
 
 import requests
 from prometheus_client import start_http_server
-from prometheus_client.core import GaugeMetricFamily, REGISTRY
+from prometheus_client.core import CounterMetricFamily, REGISTRY
 
 
 logHandler = StreamHandler()
@@ -15,23 +15,24 @@ log = getLogger(__name__)
 log.setLevel(INFO)
 log.addHandler(logHandler)
 
+good_counter = 0
+bad_counter = 0
+
 
 class FakeMetricsCollector:
     def __init__(self):
         pass
     def collect(self):
-        good_metrics = random()*100
-        pass_slo_metrics_bad = good_metrics / (110 + random()*20)
-        failed_slo_metrics_total = good_metrics + good_metrics / 2
+        global good_counter, bad_counter
 
-        gauge = GaugeMetricFamily("http_requests", "This is just for testing HPA", labels=['type', 'service'])
-        gauge.add_metric(value=good_metrics, labels=["good", "passing_service"])
-        gauge.add_metric(value=pass_slo_metrics_bad, labels=["bad", "passing_service"])
+        good_counter += round(random()*1000)
+        bad_counter += round(random()*40)
 
-        # gauge.add_metric(value=good_metrics, labels=["good", "failing_service"])
-        # gauge.add_metric(value=failed_slo_metrics_total, labels=["total", "failing_service"])
+        counter = CounterMetricFamily("fake_http_requests_total", "FAKE", labels=['type', 'service'])
+        counter.add_metric(value=good_counter, labels=["good", "server1"])
+        counter.add_metric(value=good_counter+bad_counter, labels=["total", "server1"])
 
-        return [gauge]
+        return [counter]
 
 
 class SignalHandler:
