@@ -7,7 +7,6 @@ from time import sleep
 import requests
 from prometheus_client import start_http_server
 from prometheus_client.core import GaugeMetricFamily, REGISTRY
-from pythonjsonlogger import jsonlogger
 
 
 logHandler = StreamHandler()
