@@ -28,7 +28,7 @@ class FakeMetricsCollector:
         good_counter += round(random()*1000)
         bad_counter += round(random()*40)
 
-        counter = CounterMetricFamily("fake_http_requests_total", "FAKE", labels=['type', 'service'])
+        counter = CounterMetricFamily("fake_http_requests", "FAKE", labels=['type', 'service'])
         counter.add_metric(value=good_counter, labels=["good", "server1"])
         counter.add_metric(value=good_counter+bad_counter, labels=["total", "server1"])
 
